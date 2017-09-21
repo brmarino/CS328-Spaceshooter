@@ -9,14 +9,21 @@ public class spawnScript : MonoBehaviour {
 
     public float spawnTime = 2.0f;
 
-	// Use this for initialization
-	void Start () {
+    public static bool AllowSpawn = true;
+
+    // Use this for initialization
+    void Start () {
         InvokeRepeating("addEnemy", 0, spawnTime);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
+        if (AllowSpawn == false)
+        {
+            CancelInvoke();
+        }
+
 	}
 
     void addEnemy()

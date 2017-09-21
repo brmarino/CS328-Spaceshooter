@@ -32,12 +32,17 @@ public class enemyScript : MonoBehaviour {
 
         if (name == "bullet(Clone)")
         {
+            Debug.Log(transform.name);
+            string enemyName = transform.name;
+            GameManager.Score(enemyName);
             Destroy(gameObject);
             Destroy(obj.gameObject);
         }
 
         if (name == "spaceship")
         {
+            string enemyName = transform.name;
+            GameManager.adjustHealth(enemyName);
             Destroy(gameObject);
         }
     }
