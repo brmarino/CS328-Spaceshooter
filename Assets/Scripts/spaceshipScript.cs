@@ -6,11 +6,17 @@ public class spaceshipScript : MonoBehaviour {
 
     private Rigidbody2D rb2d;
 
-    public KeyCode moveLeft = KeyCode.A;
-    public KeyCode moveRight = KeyCode.D;
+    public KeyCode moveUp = KeyCode.W;
+    public KeyCode moveDown = KeyCode.S;
     public KeyCode shoot = KeyCode.Space;
 
     public GameObject bullet;
+
+    public int Player1Health = 100;
+    public int Player1Lives = 3;
+
+    public static bool poweredUp = false;
+    int shotsLeft = 10;
 
     // Use this for initialization
     void Start () {
@@ -22,26 +28,191 @@ public class spaceshipScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        var vel = rb2d.velocity;
+        Vector2 vel = rb2d.velocity;
 
-        if (Input.GetKey(moveLeft))
+        if (Input.GetKey(moveUp))
         {
-            vel.x = -10;
+            vel.y = 10;
         }           
-        else if (Input.GetKey(moveRight))
+        else if (Input.GetKey(moveDown))
         {
-            vel.x = 10;
+            vel.y = -10;
         }            
         else
         {
-            vel.x = 0;
+            vel.y = 0;
         }
         rb2d.velocity = vel;    
 
+        if( transform.position.y > 4.4f)
+        {
+            transform.position = new Vector2(transform.position.x, 4.4f);
+        }
+        else if (transform.position.y < -4.4f)
+        {
+            transform.position = new Vector2(transform.position.x, -4.4f);
+        }
+
         if (Input.GetKeyDown(shoot))
         {
-            Instantiate(bullet, transform.position, Quaternion.identity);
+            if( poweredUp )
+            {
+                Vector3 pos = transform.position;
+
+                Instantiate(bullet, pos, Quaternion.identity);
+                pos.y += 0.25f;
+                Instantiate(bullet, pos, Quaternion.identity);
+                pos.y -= 0.5f;
+                Instantiate(bullet, pos, Quaternion.identity);
+
+                shotsLeft--;
+                if(shotsLeft == 0)
+                {
+                    poweredUp = false;
+                    shotsLeft = 10;
+                }
+            }
+            else
+            {
+                Vector3 pos = transform.position;
+                Instantiate(bullet, pos, Quaternion.identity);
+            }
         }
 
     }
+
+    void OnTriggerEnter2D(Collider2D obj)
+    {
+        string name = obj.gameObject.name;
+
+        if (name == "bullet2(Clone)")
+        {
+            if(spawnScript.AllowSpawn == false)
+            {
+                // do nothing
+            }
+            else
+            {
+                if ((Player1Health - 5) <= 0)
+                {
+                    Player1Lives--;
+
+                    //if(Player1Lives == 0)
+                    //{
+                    //    Player1Health = 0;
+                    //}
+                    //else
+                    //{
+                        Player1Health = 100;
+                    //}
+                }
+                else
+                {
+                    Player1Health -= 5;
+                }
+            }
+        
+            Destroy(obj.gameObject);
+        }
+        else if (name == "enemy(Clone)")
+        {
+            if (spawnScript.AllowSpawn == false)
+            {
+                // do nothing
+            }
+            else
+            {
+                if ((Player1Health - 5) <= 0)
+                {
+                    Player1Lives--;
+
+                    //if(Player1Lives == 0)
+                    //{
+                    //    Player1Health = 0;
+                    //}
+                    //else
+                    //{
+                    Player1Health = 100;
+                    //}
+                }
+                else
+                {
+                    Player1Health -= 5;
+                }
+            }
+
+            Destroy(obj.gameObject);
+        }
+        else if (name == "enemy2(Clone)")
+        {
+            if (spawnScript.AllowSpawn == false)
+            {
+                // do nothing
+            }
+            else
+            {
+                if ((Player1Health - 5) <= 0)
+                {
+                    Player1Lives--;
+                    Player1Health = 100;
+                }
+                else
+                {
+                    Player1Health -= 5;
+                }
+            }
+
+            Destroy(obj.gameObject);
+        }
+        else if (name == "enemyPoweredUp(Clone)")
+        {
+            if (spawnScript.AllowSpawn == false)
+            {
+                // do nothing
+            }
+            else
+            {
+                if ((Player1Health - 5) <= 0)
+                {
+                    Player1Lives--;
+                    Player1Health = 100;
+                }
+                else
+                {
+                    Player1Health -= 5;
+                }
+            }
+
+            Destroy(obj.gameObject);
+        }
+        else if (name == "enemy2PoweredUp(Clone)")
+        {
+            if (spawnScript.AllowSpawn == false)
+            {
+                // do nothing
+            }
+            else
+            {
+                if ((Player1Health - 5) <= 0)
+                {
+                    Player1Lives--;
+                    Player1Health = 100;
+                }
+                else
+                {
+                    Player1Health -= 5;
+                }
+            }
+
+            Destroy(obj.gameObject);
+        }
+    }
+
+    public void ResetValues()
+    {
+        Player1Health = 100;
+        Player1Lives = 3;
+    }
+
+
 }

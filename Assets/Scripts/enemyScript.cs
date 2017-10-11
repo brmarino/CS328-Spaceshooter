@@ -7,12 +7,17 @@ public class enemyScript : MonoBehaviour {
     private Rigidbody2D rb2d;
 
     public int speed = -5;
+    float angle;
+
+    public bool isPowerUp;
 
 	// Use this for initialization
 	void Start () {
         rb2d = GetComponent<Rigidbody2D>();
 
-        rb2d.velocity = new Vector2(0, speed);
+        angle = Random.Range(-2.0f, 2.0f);
+
+        rb2d.velocity = new Vector2(angle, speed);
         rb2d.angularVelocity = Random.Range(-200, 200);
     }
 	
@@ -32,17 +37,31 @@ public class enemyScript : MonoBehaviour {
 
         if (name == "bullet(Clone)")
         {
-            Debug.Log(transform.name);
-            string enemyName = transform.name;
-            GameManager.Score(enemyName);
+            if(isPowerUp)
+            {
+                spaceshipScript.poweredUp = true;
+            }
+
+            Destroy(gameObject);
+            Destroy(obj.gameObject);
+        }
+        else if (name == "bullet2(Clone)")
+        {
+            if (isPowerUp)
+            {
+                spaceship2Script.poweredUp = true;
+            }
+
             Destroy(gameObject);
             Destroy(obj.gameObject);
         }
 
-        if (name == "spaceship")
+        if (name == "spaceship1")
         {
-            string enemyName = transform.name;
-            GameManager.adjustHealth(enemyName);
+            Destroy(gameObject);
+        }
+        if (name == "spaceship2")
+        {
             Destroy(gameObject);
         }
     }

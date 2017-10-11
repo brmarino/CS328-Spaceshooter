@@ -2,21 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class bulletScript : MonoBehaviour {
-
+public class bulletScript : MonoBehaviour
+{
     private Rigidbody2D rb2d;
 
     public int speed = 6;
 
 	// Use this for initialization
-	void Start () {
+	void Start()
+    {
         rb2d = GetComponent<Rigidbody2D>();
 
-        rb2d.velocity = new Vector2(0, speed);
+        rb2d.velocity = new Vector2(speed, 0);
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update()
+    {
 		
 	}
 

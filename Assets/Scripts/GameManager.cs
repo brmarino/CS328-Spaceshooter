@@ -1,50 +1,64 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
-    static int PlayerScore = 0;
-    static int PlayerHealth = 100;
-
     public GUIStyle guiStyle = new GUIStyle();
 
-	// Use this for initialization
-	void Start () {
+    private spaceshipScript spaceship;
+    private spaceship2Script spaceship2;
+    //private spawnScript spawner;
+    //private spawnScript spawner2;
 
-	}
+    public static bool showLabel = true;
+
+    public KeyCode restart = KeyCode.R;
+
+    // Use this for initialization
+    void Start () {
+        spaceship = GameObject.FindGameObjectWithTag("Player1").GetComponent<spaceshipScript>();
+        spaceship2 = GameObject.FindGameObjectWithTag("Player2").GetComponent<spaceship2Script>();
+        //spawner = GameObject.FindGameObjectWithTag("spawner").GetComponent<spawnScript>();
+        //spawner2 = GameObject.FindGameObjectWithTag("spawner2").GetComponent<spawnScript>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
 
-    public static void Score(string enemyName)
-    {
-        if (enemyName == "enemy(Clone)")
+        if (Input.GetKey(restart))
         {
-            PlayerScore++;
+            SceneManager.LoadScene("MainScene");
         }
-    }
 
-    public static void adjustHealth(string enemyName)
-    {
-        if (enemyName == "enemy(Clone)")
-        {
-            PlayerHealth -= 50;
-        }
     }
 
     public void OnGUI()
     {
-        guiStyle.fontSize = 40;
-        GUI.Label(new Rect(Screen.width / 2 - 300, 20, 100, 100), "Score: " + PlayerScore, guiStyle);
-        GUI.Label(new Rect(Screen.width / 2 + 100, 20, 100, 100), "Health: " + PlayerHealth, guiStyle);
+        guiStyle.fontSize = 30;
 
-        if (PlayerHealth == 0)
+        if (spaceship.Player1Lives == 0)
         {
-            GUI.Label(new Rect(Screen.width / 2 - 150, 200, 2000, 1000), "GAME OVER", guiStyle);
-            spawnScript.AllowSpawn = false;
+            showLabel = true;
+            if (showLabel)
+            {
+                GUI.Label(new Rect(Screen.width / 2 - 200, 200, 2000, 1000), "GAME OVER, PLAYER 2 WINS!", guiStyle);
+                GUI.Label(new Rect(Screen.width / 2 - 200, 300, 2000, 1000), "Press R to restart and play again!", guiStyle);
+                spawnScript.AllowSpawn = false;
+                spawn2Script.AllowSpawn = false;
+            }
+        }
+        else if (spaceship2.Player2Lives == 0)
+        {
+            showLabel = true;
+            if (showLabel)
+            {
+                GUI.Label(new Rect(Screen.width / 2 - 200, 200, 2000, 1000), "GAME OVER, PLAYER 1 WINS!", guiStyle);
+                GUI.Label(new Rect(Screen.width / 2 - 200, 300, 2000, 1000), "Press R to restart!", guiStyle);
+                spawnScript.AllowSpawn = false;
+                spawn2Script.AllowSpawn = false;
+            }
         }
 
     }
