@@ -95,15 +95,7 @@ public class spaceship2Script : MonoBehaviour {
                 if ((Player2Health - 5) <= 0)
                 {
                     Player2Lives--;
-
-                    //if (Player2Lives == 0)
-                    //{
-                    //    Player2Health = 0;
-                    //}
-                    //else
-                    //{
-                        Player2Health = 100;
-                    //}
+                    Player2Health = 100;
                 }
                 else
                 {
@@ -204,6 +196,5 @@ public class spaceship2Script : MonoBehaviour {
         Player2Health = 100;
         Player2Lives = 3;
     }
-
 
 }

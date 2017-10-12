@@ -9,19 +9,16 @@ public class GameManager : MonoBehaviour {
 
     private spaceshipScript spaceship;
     private spaceship2Script spaceship2;
-    //private spawnScript spawner;
-    //private spawnScript spawner2;
 
     public static bool showLabel = true;
 
     public KeyCode restart = KeyCode.R;
+    public KeyCode quit = KeyCode.Escape;
 
     // Use this for initialization
     void Start () {
         spaceship = GameObject.FindGameObjectWithTag("Player1").GetComponent<spaceshipScript>();
         spaceship2 = GameObject.FindGameObjectWithTag("Player2").GetComponent<spaceship2Script>();
-        //spawner = GameObject.FindGameObjectWithTag("spawner").GetComponent<spawnScript>();
-        //spawner2 = GameObject.FindGameObjectWithTag("spawner2").GetComponent<spawnScript>();
     }
 	
 	// Update is called once per frame
@@ -31,22 +28,31 @@ public class GameManager : MonoBehaviour {
         {
             SceneManager.LoadScene("MainScene");
         }
+        else if(Input.GetKey(quit))
+        {
+            Application.Quit();
+        }
 
     }
 
     public void OnGUI()
     {
         guiStyle.fontSize = 30;
+        guiStyle.normal.textColor = Color.white;
 
         if (spaceship.Player1Lives == 0)
         {
             showLabel = true;
             if (showLabel)
             {
-                GUI.Label(new Rect(Screen.width / 2 - 200, 200, 2000, 1000), "GAME OVER, PLAYER 2 WINS!", guiStyle);
-                GUI.Label(new Rect(Screen.width / 2 - 200, 300, 2000, 1000), "Press R to restart and play again!", guiStyle);
+                guiStyle.normal.textColor = Color.green;
+                GUI.Label(new Rect(Screen.width / 2 - 200, 100, 2000, 1000), "GAME OVER, PLAYER 2 WINS!", guiStyle);
+                GUI.Label(new Rect(Screen.width / 2 - 200, 150, 2000, 1000), "Press R to restart and play again!", guiStyle);
                 spawnScript.AllowSpawn = false;
                 spawn2Script.AllowSpawn = false;
+
+                guiStyle.normal.textColor = Color.white;
+                GUI.Label(new Rect(Screen.width / 2 - 200, 450, 2000, 1000), "Or press 'ESC' to quit the game!", guiStyle);
             }
         }
         else if (spaceship2.Player2Lives == 0)
@@ -54,12 +60,15 @@ public class GameManager : MonoBehaviour {
             showLabel = true;
             if (showLabel)
             {
-                GUI.Label(new Rect(Screen.width / 2 - 200, 200, 2000, 1000), "GAME OVER, PLAYER 1 WINS!", guiStyle);
-                GUI.Label(new Rect(Screen.width / 2 - 200, 300, 2000, 1000), "Press R to restart!", guiStyle);
+                guiStyle.normal.textColor = Color.red;
+                GUI.Label(new Rect(Screen.width / 2 - 200, 100, 2000, 1000), "GAME OVER, PLAYER 1 WINS!", guiStyle);
+                GUI.Label(new Rect(Screen.width / 2 - 200, 150, 2000, 1000), "Press R to restart and play again!", guiStyle);
                 spawnScript.AllowSpawn = false;
                 spawn2Script.AllowSpawn = false;
+
+                guiStyle.normal.textColor = Color.white;
+                GUI.Label(new Rect(Screen.width / 2 - 200, 450, 2000, 1000), "Or press 'ESC' to quit the game!", guiStyle);
             }
         }
-
     }
 }

@@ -63,9 +63,6 @@ public class spawnScript : MonoBehaviour {
 
             Instantiate(enemy, spawnPoint, Quaternion.identity);
         }
-
-        //GameObject enemyInstance = Instantiate(enemy, spawnPoint, Quaternion.identity) as GameObject;
-        //enemyInstance.GetComponent<Rigidbody2D>().AddForce(new Vector2(100.0f, 5.0f));
     }
 
 }
